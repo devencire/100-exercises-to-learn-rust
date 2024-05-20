@@ -13,6 +13,60 @@
 // You don't have to though: it's perfectly okay to write three separate
 // implementations manually. Venture further only if you're curious.
 
+trait Power<RHS = Self> {
+    type Output;
+
+    fn power(self, rhs: RHS) -> Self::Output;
+}
+
+// yeah yeah for real we should check some more stuff in these impls
+// but also .pow and .checked_pow exist for a reason :)
+
+impl Power<u32> for u32 {
+    type Output = u32;
+
+    fn power(self, rhs: u32) -> Self::Output {
+        if rhs == 0 {
+            return 1
+        }
+        let mut result = 1;
+        for _ in 1..=rhs {
+            result *= self;
+        }
+        result
+    }
+}
+
+impl Power<u16> for u32 {
+    type Output = u32;
+
+    fn power(self, rhs: u16) -> Self::Output {
+        if rhs == 0 {
+            return 1
+        }
+        let mut result = 1;
+        for _ in 1..=rhs {
+            result *= self;
+        }
+        result
+    }
+}
+
+impl Power<&u32> for u32 {
+    type Output = u32;
+
+    fn power(self, rhs: &u32) -> Self::Output {
+        if *rhs == 0 {
+            return 1
+        }
+        let mut result = 1;
+        for _ in 1..=*rhs {
+            result *= self;
+        }
+        result
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Power;
